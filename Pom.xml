@@ -1,0 +1,10 @@
+/* Importante, el archivo pom.xml del proyecto debe tener lo siguiente para poder realizar la conexión a la base de datos */
+
+<dependencies>
+        <!-- Driver JDBC de PostgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.2</version>
+        </dependency>
+    </dependencies>

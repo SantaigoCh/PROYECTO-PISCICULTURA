@@ -8,29 +8,29 @@ public class MenuLogin {
     public static void mostrarMenuLogin() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("==== Inicio de Sesión ====");
+        System.out.println("==== Inicio de SesiÃ³n ====");
 
         System.out.print("Correo: ");
         String correo = sc.nextLine();
 
-        System.out.print("Contraseña: ");
+        System.out.print("ContraseÃ±a: ");
         String contrasena = sc.nextLine();
 
         String rol = Autenticador.autenticar(correo, contrasena);
 
-        if (rol != null) {
-            System.out.println("✅ Autenticación exitosa. Rol: " + rol);
+       if (rol != null) {
+                System.out.println(" Autenticacion exitosa. Rol: " + rol);
 
-            if (rol.equalsIgnoreCase("administrador")) {
-                System.out.println("Accediendo como administrador...");
-                
-            } else if (rol.equalsIgnoreCase("piscicultor")) {
-                System.out.println("Accediendo como piscicultor...");
-              
-            }
+                if (rol.equalsIgnoreCase("administrador")) {
+                    MenuAdministrador.mostrarMenu();
+                } else if (rol.equalsIgnoreCase("piscicultor")) {
+                    MenuPiscicultor.mostrarMenuPiscicultor();
+                } else {
+                    System.out.println("ï¸ Rol desconocido, acceso denegado.");
+                        }
 
-        } else {
-            System.out.println("❌ Correo o contraseña incorrectos.");
-        }
+                    } else {
+                        System.out.println(" Correo o contraseÃ±a incorrectos.");
+                    }
     }
 }

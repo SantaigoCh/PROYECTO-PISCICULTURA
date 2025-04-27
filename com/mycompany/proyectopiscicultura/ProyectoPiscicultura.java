@@ -21,8 +21,8 @@ public class ProyectoPiscicultura {
             sc.nextLine(); 
 
             switch (opcion) {
-                case 1 -> MenuRegistro.mostrarMenuRegistro();
-                case 2 -> MenuLogin.mostrarMenuLogin();
+                case 1 -> MenuRegistro.mostrarMenuRegistroGUI();
+                case 2 -> MenuLogin.mostrarMenuLoginGUI();
                 case 3 -> System.out.println("¡Hasta luego!");
                 default -> System.out.println("Opción no válida.");
             }

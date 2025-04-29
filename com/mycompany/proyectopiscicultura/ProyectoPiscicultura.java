@@ -15,25 +15,21 @@ public class ProyectoPiscicultura {
             System.out.println("1. Registrarse");
             System.out.println("2. Iniciar Sesion");
             System.out.println("3. Salir");
+            System.out.println("4. Integrar datos de captura pesquera 2020");
             System.out.print("Seleccione una opcion: ");
             opcion = sc.nextInt();
-            sc.nextLine(); 
+            sc.nextLine(); // Consumir salto de línea
 
             switch (opcion) {
-<<<<<<< HEAD:com/mycompany/proyectopiscicultura/ProyectoPiscicultura.java
-                case 1 -> MenuRegistro.mostrarMenuRegistroGUI();
-                case 2 -> MenuLogin.mostrarMenuLoginGUI();
-=======
                 case 1 -> MenuRegistro.mostrarMenuRegistro();
-                
-                case 2 -> {
-                    MenuLogin.mostrarMenuLogin();
-                }
-                
->>>>>>> c24ea9d2ff01467cc50c9a710c2a6373b54692dc:ProyectoPiscicultura.java
+                case 2 -> MenuLogin.mostrarMenuLogin();
                 case 3 -> System.out.println("¡Hasta luego!");
-
-                default -> System.out.println("Opcion no válida.");
+                case 4 -> {
+                    System.out.println("\n Integrando datos desde fuente externa...");
+                    IntegradorDatosExternos.integrarCapturaPesquera2020();
+                    System.out.println("\n Integracion de datos completada exitosamente.\n");
+                }
+                default -> System.out.println("Opción no válida.");
             }
         } while (opcion != 3);
 

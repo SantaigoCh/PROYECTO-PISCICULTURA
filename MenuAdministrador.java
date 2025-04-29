@@ -17,19 +17,25 @@ public class MenuAdministrador {
             System.out.println("1. Gestionar usuarios");
             System.out.println("2. Ver reportes");
             System.out.println("3. Configuraciones");
-            System.out.println("4. Cerrar sesion");
-            System.out.print("Seleccione una opcion: ");
+            System.out.println("4. Integrar datos externos"); 
+            System.out.println("5. Cerrar sesion");
+            System.out.print("Seleccione una opción: ");
             opcion = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); 
 
-            switch (opcion) {
-                case 1 -> gestionarUsuarios();
-                case 2 -> System.out.println("Funcionalidad de reportes (por implementar)");
-                case 3 -> System.out.println("Funcionalidad de configuraciones (por implementar)");
-                case 4 -> System.out.println("Cerrando sesion...");
-                default -> System.out.println("Opción no válida.");
+        switch (opcion) {
+            case 1 -> gestionarUsuarios();
+            case 2 -> System.out.println("Funcionalidad de reportes (por implementar)");
+            case 3 -> System.out.println("Funcionalidad de configuraciones (por implementar)");
+            case 4 -> {
+                System.out.println("\n Integrando datos desde fuente externa...");
+                IntegradorDatosExternos.integrarCapturaPesquera2020();
+                System.out.println("\n Integración de datos completada exitosamente.\n");
             }
-        } while (opcion != 4);
+            case 5 -> System.out.println("Cerrando sesión...");
+            default -> System.out.println("Opción no válida.");
+            }
+        } while (opcion != 5);
     }
 
     private static void gestionarUsuarios() {

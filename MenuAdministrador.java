@@ -17,25 +17,31 @@ public class MenuAdministrador {
             System.out.println("1. Gestionar usuarios");
             System.out.println("2. Ver reportes");
             System.out.println("3. Configuraciones");
-            System.out.println("4. Integrar datos externos"); 
-            System.out.println("5. Cerrar sesion");
+            System.out.println("4. Integrar datos de captura pesquera 2020");
+            System.out.println("5. Integrar datos de gastos de venta"); 
+            System.out.println("6. Cerrar sesión");
             System.out.print("Seleccione una opción: ");
             opcion = sc.nextInt();
             sc.nextLine(); 
 
-        switch (opcion) {
-            case 1 -> gestionarUsuarios();
-            case 2 -> System.out.println("Funcionalidad de reportes (por implementar)");
-            case 3 -> System.out.println("Funcionalidad de configuraciones (por implementar)");
-            case 4 -> {
-                System.out.println("\n Integrando datos desde fuente externa...");
-                IntegradorDatosExternos.integrarCapturaPesquera2020();
-                System.out.println("\n Integración de datos completada exitosamente.\n");
+            switch (opcion) {
+                case 1 -> gestionarUsuarios();
+                case 2 -> System.out.println("Funcionalidad de reportes (por implementar)");
+                case 3 -> System.out.println("Funcionalidad de configuraciones (por implementar)");
+                case 4 -> {
+                    System.out.println("\n Integrando datos de captura pesquera 2020...");
+                    IntegradorDatosExternos.integrarCapturaPesquera2020();
+                    System.out.println("\n Integración de datos de captura pesquera completada exitosamente.\n");
+                }
+                case 5 -> {
+                    System.out.println("\n Integrando datos de gastos de avituallamiento 2020...");
+                    IntegradorDatosExternos.integrarVentasGastosAcuicolas();
+                    System.out.println("\n Integración de datos de gastos de venta completada exitosamente.\n");
+                }
+                case 6 -> System.out.println("Cerrando sesión...");
+                default -> System.out.println("Opción no válida.");
             }
-            case 5 -> System.out.println("Cerrando sesión...");
-            default -> System.out.println("Opción no válida.");
-            }
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     private static void gestionarUsuarios() {

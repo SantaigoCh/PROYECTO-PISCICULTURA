@@ -64,6 +64,51 @@ public class IntegradorDatosExternos {
         }
     }
 
+    /*Datos Gastos o costos de avituallamiento 2020*/
+    public static void integrarVentasGastosAcuicolas() {
+        String baseUrl = "https://www.datos.gov.co/resource/7swi-ievq.json";
+        String fuente = "datos.gov.co - Costos Avituallamiento 2020";
+        int limit = 1000;
+    int offset = 0;
+   boolean hayDatos = true;
+
+    OkHttpClient client = new OkHttpClient();
+
+    while (hayDatos) {
+        String url = baseUrl + "?$limit=" + limit + "&$offset=" + offset;
+        Request request = new Request.Builder().url(url).build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                System.out.println(" Error al obtener datos: " + response);
+                break;
+            }
+
+            String jsonData = response.body().string();
+            JsonArray registros = JsonParser.parseString(jsonData).getAsJsonArray();
+
+            if (registros.size() == 0) {
+                hayDatos = false;
+            } else {
+                for (int i = 0; i < registros.size(); i++) {
+                    JsonObject obj = registros.get(i).getAsJsonObject();
+
+                    String codigo = obj.has("c_digo") ? obj.get("c_digo").getAsString() : null;
+                    double avituallamiento = obj.has("avituallamiento") ? obj.get("avituallamiento").getAsDouble() : 0.0;
+
+                    if (codigo != null && avituallamiento > 0) {
+                        guardarEnBD("ventas", codigo, avituallamiento, "Gasto en avituallamiento", fuente);
+                    }
+                }
+                offset += limit;
+            }
+
+        } catch (Exception e) {
+            System.out.println(" Error al integrar datos: " + e.getMessage());
+            hayDatos = false;
+        }
+    }
+}
   
 
     /**

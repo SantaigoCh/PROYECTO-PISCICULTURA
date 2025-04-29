@@ -2,37 +2,31 @@
 el motor de bases de datos trabajado será PostgreSQL. */
 package com.mycompany.proyectopiscicultura;
 
-import java.util.Scanner;
+    import java.util.Scanner;
 
-public class ProyectoPiscicultura {
+    public class ProyectoPiscicultura {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int opcion;
+        public static void main(String[] args) {
+            Scanner sc = new Scanner(System.in);
+            int opcion;
 
-        do {
-            System.out.println("\n==== Sistema de Piscicultura ====");
-            System.out.println("1. Registrarse");
-            System.out.println("2. Iniciar Sesion");
-            System.out.println("3. Salir");
-            System.out.println("4. Integrar datos de captura pesquera 2020");
-            System.out.print("Seleccione una opcion: ");
-            opcion = sc.nextInt();
-            sc.nextLine(); // Consumir salto de línea
+            do {
+                System.out.println("\n==== Sistema de Piscicultura ====");
+                System.out.println("1. Registrarse");
+                System.out.println("2. Iniciar Sesion");
+                System.out.println("3. Salir");
+                System.out.print("Seleccione una opcion: ");
+                opcion = sc.nextInt();
+                sc.nextLine(); 
 
-            switch (opcion) {
-                case 1 -> MenuRegistro.mostrarMenuRegistro();
-                case 2 -> MenuLogin.mostrarMenuLogin();
-                case 3 -> System.out.println("¡Hasta luego!");
-                case 4 -> {
-                    System.out.println("\n Integrando datos desde fuente externa...");
-                    IntegradorDatosExternos.integrarCapturaPesquera2020();
-                    System.out.println("\n Integracion de datos completada exitosamente.\n");
+                switch (opcion) {
+                    case 1 -> MenuRegistro.mostrarMenuRegistro();
+                    case 2 -> MenuLogin.mostrarMenuLogin();
+                    case 3 -> System.out.println("Hasta luego!");
+                    default -> System.out.println("Opcion no valida.");
                 }
-                default -> System.out.println("Opción no válida.");
-            }
-        } while (opcion != 3);
+            } while (opcion != 3);
 
-        sc.close();
+            sc.close();
+        }
     }
-}

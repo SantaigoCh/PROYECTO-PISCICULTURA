@@ -134,7 +134,7 @@ public class MenuPiscicultor {
 }
 
     private static void filtrarRegistros() {
-    System.out.println("\n--- Filtrar registros por tipo de variable ---");
+    System.out.println("\n--- Filtrar registros por tipo y nombre de variable ---");
 
     Scanner scanner = new Scanner(System.in);
     Connection conn = null;
@@ -144,13 +144,13 @@ public class MenuPiscicultor {
     try {
         conn = Conexion.getConexion();
 
-        // Mostrar tipos disponibles
+        // Obtener tipos de variable
         String tiposSQL = "SELECT DISTINCT tipo FROM variable ORDER BY tipo";
         stmt = conn.prepareStatement(tiposSQL);
         rs = stmt.executeQuery();
 
-        int contador = 1;
         List<String> tipos = new ArrayList<>();
+        int contador = 1;
         System.out.println("Tipos disponibles:");
         while (rs.next()) {
             String tipo = rs.getString("tipo");
@@ -160,33 +160,66 @@ public class MenuPiscicultor {
         }
 
         if (tipos.isEmpty()) {
-            System.out.println("No hay tipos de variables registrados.");
+            System.out.println("No hay tipos registrados.");
             return;
         }
 
-        System.out.print("Seleccione el número del tipo que desea consultar: ");
-        int opcion = scanner.nextInt();
-        scanner.nextLine(); // limpiar buffer
+        System.out.print("Seleccione el número del tipo: ");
+        int tipoSeleccionadoIndex = scanner.nextInt();
+        scanner.nextLine(); 
 
-        if (opcion < 1 || opcion > tipos.size()) {
+        if (tipoSeleccionadoIndex < 1 || tipoSeleccionadoIndex > tipos.size()) {
             System.out.println("Opción inválida.");
             return;
         }
 
-        String tipoSeleccionado = tipos.get(opcion - 1);
+        String tipoSeleccionado = tipos.get(tipoSeleccionadoIndex - 1);
 
-        // Mostrar registros filtrados por tipo
-        String registrosSQL = "SELECT r.id, v.nombre AS variable_nombre, r.valor, r.observacion, r.fecha " +
-                              "FROM registro r " +
-                              "JOIN variable v ON r.variable_id = v.id " +
-                              "WHERE v.tipo = ? " +
-                              "ORDER BY r.fecha DESC";
-        stmt = conn.prepareStatement(registrosSQL);
+        // Obtener nombres de variable dentro del tipo seleccionado
+        String nombresSQL = "SELECT nombre FROM variable WHERE tipo = ? ORDER BY nombre";
+        stmt = conn.prepareStatement(nombresSQL);
         stmt.setString(1, tipoSeleccionado);
         rs = stmt.executeQuery();
 
+        List<String> nombres = new ArrayList<>();
+        contador = 1;
+        System.out.println("\nVariables disponibles para tipo '" + tipoSeleccionado + "':");
+        while (rs.next()) {
+            String nombre = rs.getString("nombre");
+            System.out.println(contador + ". " + nombre);
+            nombres.add(nombre);
+            contador++;
+        }
+
+        if (nombres.isEmpty()) {
+            System.out.println("No hay variables registradas para este tipo.");
+            return;
+        }
+
+        System.out.print("Seleccione el número de la variable: ");
+        int nombreSeleccionadoIndex = scanner.nextInt();
+        scanner.nextLine(); 
+
+        if (nombreSeleccionadoIndex < 1 || nombreSeleccionadoIndex > nombres.size()) {
+            System.out.println("Opción inválida.");
+            return;
+        }
+
+        String nombreSeleccionado = nombres.get(nombreSeleccionadoIndex - 1);
+
+        // Consultar registros filtrados
+        String registrosSQL = "SELECT r.id, v.nombre AS variable_nombre, r.valor, r.observacion, r.fecha " +
+                              "FROM registro r " +
+                              "JOIN variable v ON r.variable_id = v.id " +
+                              "WHERE v.tipo = ? AND v.nombre = ? " +
+                              "ORDER BY r.fecha DESC";
+        stmt = conn.prepareStatement(registrosSQL);
+        stmt.setString(1, tipoSeleccionado);
+        stmt.setString(2, nombreSeleccionado);
+        rs = stmt.executeQuery();
+
         boolean hayRegistros = false;
-        System.out.println("\n--- Registros del tipo: " + tipoSeleccionado + " ---");
+        System.out.println("\n--- Registros para variable '" + nombreSeleccionado + "' ---");
         while (rs.next()) {
             int id = rs.getInt("id");
             String variableNombre = rs.getString("variable_nombre");
@@ -205,7 +238,7 @@ public class MenuPiscicultor {
         }
 
         if (!hayRegistros) {
-            System.out.println("No hay registros para este tipo.");
+            System.out.println("No hay registros para esta variable.");
         }
 
     } catch (SQLException e) {
